@@ -40,6 +40,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 
 import java.io.File;
 import java.io.InputStream;
@@ -134,8 +135,10 @@ public final class CropImage {
    * @param activity the activity to be used to start activity from
    */
   public static void startPickImageActivity(@NonNull Activity activity) {
-    activity.startActivityForResult(
-        getPickImageChooserIntent(activity), PICK_IMAGE_CHOOSER_REQUEST_CODE);
+//    activity.startActivityForResult(getPickImageChooserIntent(activity), PICK_IMAGE_CHOOSER_REQUEST_CODE);
+    List<Intent> intents = getCameraIntents(activity, activity.getPackageManager());
+    Log.d("camera_list", "startPickImageActivity: " + intents.size());
+    activity.startActivityForResult(intents.get(0), PICK_IMAGE_CHOOSER_REQUEST_CODE);
   }
 
   /**
@@ -189,13 +192,13 @@ public final class CropImage {
       allIntents.addAll(getCameraIntents(context, packageManager));
     }
 
-    List<Intent> galleryIntents =
-        getGalleryIntents(packageManager, Intent.ACTION_GET_CONTENT, includeDocuments);
-    if (galleryIntents.size() == 0) {
-      // if no intents found for get-content try pick intent action (Huawei P9).
-      galleryIntents = getGalleryIntents(packageManager, Intent.ACTION_PICK, includeDocuments);
-    }
-    allIntents.addAll(galleryIntents);
+//    List<Intent> galleryIntents =
+//        getGalleryIntents(packageManager, Intent.ACTION_GET_CONTENT, includeDocuments);
+//    if (galleryIntents.size() == 0) {
+//      // if no intents found for get-content try pick intent action (Huawei P9).
+//      galleryIntents = getGalleryIntents(packageManager, Intent.ACTION_PICK, includeDocuments);
+//    }
+//    allIntents.addAll(galleryIntents);
 
     Intent target;
     if (allIntents.isEmpty()) {
